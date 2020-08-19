@@ -1,6 +1,11 @@
-public class Player {
+package com.example.exc1;
+
+public class Player implements IPlayer {
     private String name;
     private int HP;
+
+    public Player() {
+    }
 
     public Player(String name, int HP) {
         this.name = name;
@@ -26,7 +31,7 @@ public class Player {
     }
 
     public boolean attack(int power){
-        int newHP = this.getHP()-power;
+        int newHP = this.getHP() - power;
         if(newHP>0){
             this.setHP(newHP);
             return true;
