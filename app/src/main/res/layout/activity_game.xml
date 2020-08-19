@@ -35,7 +35,7 @@
                     android:id="@+id/game_IMG_player1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/psg_img_logo"
+                    android:src="@drawable/PSG_IMG_Logo"
                     android:layout_below="@+id/game_progressBar_player1"/>
 
             </RelativeLayout>
