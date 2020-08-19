@@ -102,7 +102,7 @@
                 android:id="@+id/top10_TXT_9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="9 Place"
+                android:text="@string/_9_place"
                 android:textAlignment="center"
                 android:textSize="30dp" />
 
