@@ -41,25 +41,28 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/game_BTN_player1_attack1"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
+                    android:layout_weight="1"
                     android:text="attack1" />
 
                 <Button
                     android:id="@+id/game_BTN_player1_attack2"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
+                    android:layout_weight="1"
                     android:text="attack1" />
 
                 <Button
                     android:id="@+id/game_BTN_player1_attack3"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
+                    android:layout_weight="1"
                     android:text="attack1" />
             </LinearLayout>
 
