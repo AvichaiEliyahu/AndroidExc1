@@ -7,102 +7,123 @@
     tools:context=".activity_top_10">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Top 10!!!"
-/>
-    </RelativeLayout>
-
-    <LinearLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="#90C690"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/top10_TXT_1"
+            android:id="@+id/top10_TXT_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Top 10!!!"
             android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="1 Place" />
 
-        <TextView
-            android:id="@+id/top10_TXT_2"
+            android:textSize="80dp" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_top10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="2 Place" />
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/top10_TXT_title">
 
-        <TextView
-            android:id="@+id/top10_TXT_3"
+
+
+            <TextView
+                android:id="@+id/top10_TXT_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/top10_TXT_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 Place"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="3 Place" />
+            android:text="menu"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/ll_top10"
+            android:layout_marginTop="50dp"/>
 
-        <TextView
-            android:id="@+id/top10_TXT_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="4 Place" />
-
-        <TextView
-            android:id="@+id/top10_TXT_5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="5 Place" />
-
-        <TextView
-            android:id="@+id/top10_TXT_6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="6 Place" />
-
-        <TextView
-            android:id="@+id/top10_TXT_7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="7 Place" />
-        <TextView
-            android:id="@+id/top10_TXT_8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="8 Place" />
-
-        <TextView
-            android:id="@+id/top10_TXT_9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="9 Place" />
-        <TextView
-            android:id="@+id/top10_TXT_10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:text="10 Place" />
-
-
-
-
-
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
