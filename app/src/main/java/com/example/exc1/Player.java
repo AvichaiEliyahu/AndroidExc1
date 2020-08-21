@@ -1,6 +1,6 @@
 package com.example.exc1;
 
-public class Player implements IPlayer {
+public class Player extends AbstractPlayer {
     private String name;
     private int HP;
 
@@ -32,10 +32,18 @@ public class Player implements IPlayer {
 
     public boolean attack(int power){
         int newHP = this.getHP() - power;
+        this.setHP(newHP);
         if(newHP>0){
-            this.setHP(newHP);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", HP=" + HP +
+                '}';
     }
 }

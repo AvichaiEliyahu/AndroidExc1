@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,21 +47,22 @@ public class activity_game extends AppCompatActivity {
         defenderTurn = howIsStart();
         setBTNs(defenderTurn);
 
-        
-        defenderTurn = defenderTurn == player1 ? player2 : (player1);
     }
 
-    private void setBTNs(IPlayer turn) {
-        if (turn == player1) {
+    private void setBTNs(IPlayer turnPlayer) {
+        if (turnPlayer == player1) {
             for (Button b : p1BTNsArr) {
                 b.setClickable(false);
             }
             for (Button b : p2BTNsArr) {
                 b.setClickable(true);
+
             }
         } else {
             for (Button b : p2BTNsArr) {
                 b.setClickable(false);
+                b.setBackgroundColor(000000);
+
             }
             for (Button b : p1BTNsArr) {
                 b.setClickable(true);
@@ -69,13 +71,15 @@ public class activity_game extends AppCompatActivity {
     }
 
     private IPlayer howIsStart() {
-        int num1 = (int)Math.random()*7;
-        int num2 = (int)Math.random()*7;
-        return num1 > num2 ? player1 : player2;
+//        int num1 = (int)Math.random()*7;
+//        int num2 = (int)Math.random()*7;
+//        return num1 > num2 ? player1 : player2;
+        return player1;
     }
 
     private void initPlayers() {
-        player1 = new Player().setHP(1000).setName("PSG");
+        player1 = new Player().setHP(100).setName("PSG");
+        p1BTNsArr = new ArrayList<>();
         p1BTNsArr.add(game_BTN_player1_attack1);
         p1BTNsArr.add(game_BTN_player1_attack2);
         p1BTNsArr.add(game_BTN_player1_attack3);
@@ -98,10 +102,12 @@ public class activity_game extends AppCompatActivity {
             }
         });
 
+
+        p2BTNsArr = new ArrayList<>();
         p2BTNsArr.add(game_BTN_player2_attack1);
         p2BTNsArr.add(game_BTN_player2_attack2);
         p2BTNsArr.add(game_BTN_player2_attack3);
-        player2 = new Player("BYM", 1000);
+        player2 = new Player("BYM", 100);
         game_BTN_player2_attack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,8 +144,22 @@ public class activity_game extends AppCompatActivity {
         game_progressBar_player2 = findViewById(R.id.game_progressBar_player2);
     }
 
-    private boolean attackBTN(int power) {
-        return defenderTurn.attack(power);
+    private void attackBTN(int power) {
+        Log.d("pttt", "power = " + power);
+        boolean rv = defenderTurn.attack(power);
+        Log.d("pttt", "def HP = " + defenderTurn.getHP());
+        changeTurn(rv);
+    }
+
+    private void changeTurn(boolean defenderAlive) {
+        if (defenderAlive) {
+            defenderTurn = defenderTurn == player1 ? player2 : (player1);
+            setBTNs(defenderTurn);
+        } else {
+            defenderTurn = defenderTurn == player1 ? player2 : (player1);
+
+            Log.d("end", "game done with = " + defenderTurn);
+        }
     }
 
 
