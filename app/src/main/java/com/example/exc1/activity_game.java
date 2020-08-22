@@ -3,6 +3,7 @@ package com.example.exc1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,19 +54,21 @@ public class activity_game extends AppCompatActivity {
         if (turnPlayer == player1) {
             for (Button b : p1BTNsArr) {
                 b.setClickable(false);
+                b.setBackgroundColor(Color.GRAY);
             }
             for (Button b : p2BTNsArr) {
                 b.setClickable(true);
-
+                b.setBackgroundColor(Color.RED);
             }
         } else {
             for (Button b : p2BTNsArr) {
                 b.setClickable(false);
-                b.setBackgroundColor(000000);
-
+                b.setBackgroundColor(Color.GRAY);
             }
             for (Button b : p1BTNsArr) {
                 b.setClickable(true);
+                b.setBackgroundColor(Color.BLUE);
+
             }
         }
     }
