@@ -1,5 +1,7 @@
 package com.example.exc1;
 
+import android.util.Log;
+
 public class Player extends AbstractPlayer {
     private String name;
     private int HP;
@@ -31,6 +33,7 @@ public class Player extends AbstractPlayer {
     }
 
     public boolean attack(int power){
+        Log.d("player", "i'm" + name + "my hp = " + HP + "power -" + power);
         int newHP = this.getHP() - power;
         this.setHP(newHP);
         if(newHP>0){

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class activity_game extends AppCompatActivity {
 
     private ArrayList<Button> p1BTNsArr;
     private ArrayList<Button> p2BTNsArr;
-
+    private TextView game_TXT_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +52,24 @@ public class activity_game extends AppCompatActivity {
 
     }
 
-    private void setBTNs(IPlayer turnPlayer) {
-        if (turnPlayer == player1) {
-            for (Button b : p1BTNsArr) {
-                b.setClickable(false);
-                b.setBackgroundColor(Color.GRAY);
-            }
+    private void setBTNs(IPlayer defenderTurn) {
+        if (defenderTurn == player1) {
             for (Button b : p2BTNsArr) {
                 b.setClickable(true);
                 b.setBackgroundColor(Color.RED);
             }
-        } else {
-            for (Button b : p2BTNsArr) {
+            for (Button b : p1BTNsArr) {
                 b.setClickable(false);
                 b.setBackgroundColor(Color.GRAY);
             }
+        } else {
             for (Button b : p1BTNsArr) {
                 b.setClickable(true);
                 b.setBackgroundColor(Color.BLUE);
+            }
+            for (Button b : p2BTNsArr) {
+                b.setClickable(false);
+                b.setBackgroundColor(Color.GRAY);
             }
         }
     }
@@ -91,21 +92,18 @@ public class activity_game extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attackBTN(10);
-                updateProgBar(player2);
             }
         });
         game_BTN_player1_attack2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(20);
-                updateProgBar(player2);
             }
         });
         game_BTN_player1_attack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(40);
-                updateProgBar(player2);
             }
         });
 
@@ -119,21 +117,18 @@ public class activity_game extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attackBTN(10);
-                updateProgBar(player1);
             }
         });
         game_BTN_player2_attack2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(20);
-                updateProgBar(player1);
             }
         });
         game_BTN_player2_attack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(40);
-                updateProgBar(player1);
             }
         });
 
@@ -155,20 +150,15 @@ public class activity_game extends AppCompatActivity {
         game_BTN_player2_attack2 = findViewById(R.id.game_BTN_player2_attack2);
         game_BTN_player2_attack3 = findViewById(R.id.game_BTN_player2_attack3);
         game_progressBar_player2 = findViewById(R.id.game_progressBar_player2);
+
+        game_TXT_message = findViewById(R.id.game_TXT_message);
     }
 
     private void attackBTN(int power) {
-        Log.d("pttt", "power = " + power);
+        Log.d("pttt", "turn = " + defenderTurn + "\npower = " + power);
         boolean rv = defenderTurn.attack(power);
-        Log.d("pttt", "def HP = " + defenderTurn.getHP());
+        Log.d("pttt", "def HP = " + defenderTurn);
         changeTurn(rv);
-    }
-
-    private void updateProgBar(IPlayer player){
-        if(player==player1)
-            game_progressBar_player1.setProgress(player1.getHP());
-        else
-            game_progressBar_player2.setProgress(player2.getHP());
     }
 
     private void changeTurn(boolean defenderAlive) {
@@ -176,9 +166,14 @@ public class activity_game extends AppCompatActivity {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
-            //defenderTurn = defenderTurn == player1 ? player2 : (player1);
+            game_TXT_message.setText("The Winner Is " + (defenderTurn == player1 ? player2.getName() : player1.getName()));
             MySignalV2.getInstance().showToast(defenderTurn.getName() + " lost");
             //Log.d("end", "" + defenderTurn + "lost");
         }
+        updateProgBar(defenderTurn);
+    }
+    private void updateProgBar(IPlayer player) {
+        game_progressBar_player1.setProgress(player1.getHP());
+        game_progressBar_player2.setProgress(player2.getHP());
     }
 }
