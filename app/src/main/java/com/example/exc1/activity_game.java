@@ -39,6 +39,7 @@ public class activity_game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_game);
+        MySignalV2.initHelper(this);
         findVIews();
         initPlayers();
         playGame();
@@ -68,7 +69,6 @@ public class activity_game extends AppCompatActivity {
             for (Button b : p1BTNsArr) {
                 b.setClickable(true);
                 b.setBackgroundColor(Color.BLUE);
-
             }
         }
     }
@@ -86,22 +86,26 @@ public class activity_game extends AppCompatActivity {
         p1BTNsArr.add(game_BTN_player1_attack1);
         p1BTNsArr.add(game_BTN_player1_attack2);
         p1BTNsArr.add(game_BTN_player1_attack3);
+
         game_BTN_player1_attack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(10);
+                updateProgBar(player2);
             }
         });
         game_BTN_player1_attack2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(20);
+                updateProgBar(player2);
             }
         });
         game_BTN_player1_attack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(40);
+                updateProgBar(player2);
             }
         });
 
@@ -115,20 +119,26 @@ public class activity_game extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attackBTN(10);
+                updateProgBar(player1);
             }
         });
         game_BTN_player2_attack2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(20);
+                updateProgBar(player1);
             }
         });
         game_BTN_player2_attack3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attackBTN(40);
+                updateProgBar(player1);
             }
         });
+
+        game_progressBar_player1.setProgress(player1.getHP());
+        game_progressBar_player2.setProgress(player2.getHP());
     }
 
     private void findVIews() {
@@ -154,16 +164,21 @@ public class activity_game extends AppCompatActivity {
         changeTurn(rv);
     }
 
+    private void updateProgBar(IPlayer player){
+        if(player==player1)
+            game_progressBar_player1.setProgress(player1.getHP());
+        else
+            game_progressBar_player2.setProgress(player2.getHP());
+    }
+
     private void changeTurn(boolean defenderAlive) {
         if (defenderAlive) {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
-            defenderTurn = defenderTurn == player1 ? player2 : (player1);
-
-            Log.d("end", "game done with = " + defenderTurn);
+            //defenderTurn = defenderTurn == player1 ? player2 : (player1);
+            MySignalV2.getInstance().showToast(defenderTurn.getName() + " lost");
+            //Log.d("end", "" + defenderTurn + "lost");
         }
     }
-
-
 }

@@ -4,4 +4,5 @@ public interface IPlayer {
     public boolean attack(int power);
 
     public int getHP();
+    public String getName();
 }
