@@ -2,17 +2,25 @@ package com.example.exc1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
 
 public class activity_game extends AppCompatActivity {
     private IPlayer player1;
@@ -34,7 +42,9 @@ public class activity_game extends AppCompatActivity {
     private ArrayList<Button> p1BTNsArr;
     private ArrayList<Button> p2BTNsArr;
     private TextView game_TXT_message;
-
+    private ImageButton game_BTN_roll;
+    private ImageView game_IMG_cubeP1;
+    private ImageView game_IMG_cubeP2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +52,22 @@ public class activity_game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         MySignalV2.initHelper(this);
         findVIews();
+        initGameFunctions();
         initPlayers();
         playGame();
     }
 
+    private void initGameFunctions() {
+        game_BTN_roll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                howIsStart();
+            }
+        });
+    }
+
     private void playGame() {
-        defenderTurn = howIsStart();
+//        defenderTurn = howIsStart();
         setBTNs(defenderTurn);
 
     }
@@ -75,10 +95,24 @@ public class activity_game extends AppCompatActivity {
     }
 
     private IPlayer howIsStart() {
-//        int num1 = (int)Math.random()*7;
-//        int num2 = (int)Math.random()*7;
-//        return num1 > num2 ? player1 : player2;
+        //TODO add images
+        Random rand = new Random();
+        int num1 = rand.nextInt(7);
+        int num2 = rand.nextInt(7);
+        game_BTN_roll.setVisibility(View.GONE);
+        game_IMG_cubeP1.setImageResource(getImageByRand(num1));
+        game_IMG_cubeP1.setVisibility(View.VISIBLE);
+        game_IMG_cubeP2.setImageResource(getImageByRand(num2));
+        game_IMG_cubeP2.setVisibility(View.VISIBLE);
+        this.defenderTurn = num1 > num2 ? player1 : player2;
         return player1;
+    }
+
+    private int getImageByRand(int randomNumber) {
+        String fileName = "ic_dice" + randomNumber+".xml";
+        Context context = this;
+        int id = context.getResources().getIdentifier("picture0001", "drawable", context.getPackageName());
+        return id;
     }
 
     private void initPlayers() {
@@ -152,6 +186,9 @@ public class activity_game extends AppCompatActivity {
         game_progressBar_player2 = findViewById(R.id.game_progressBar_player2);
 
         game_TXT_message = findViewById(R.id.game_TXT_message);
+        game_BTN_roll = findViewById(R.id.game_BTN_roll);
+        game_IMG_cubeP1 = findViewById(R.id.game_IMG_cubeP1);
+        game_IMG_cubeP2 = findViewById(R.id.game_IMG_cubeP2);
     }
 
     private void attackBTN(int power) {
