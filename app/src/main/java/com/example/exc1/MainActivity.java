@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findviews() {
-
         main_IMG_backgroundimg = findViewById(R.id.main_IMG_backgroundimg);
         main_BTN_start = findViewById(R.id.main_BTN_start);
         main_BTN_top10 = findViewById(R.id.main_BTN_top10);

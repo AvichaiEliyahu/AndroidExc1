@@ -10,7 +10,6 @@ import android.os.Vibrator;
 import android.widget.Toast;
 
 public class MySignalV2 {
-
     private static MySignalV2 instance;
     private static Context appContext;
 

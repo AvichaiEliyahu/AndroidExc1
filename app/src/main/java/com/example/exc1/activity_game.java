@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -205,14 +206,20 @@ public class activity_game extends AppCompatActivity {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
-            game_TXT_message.setText("The Winner Is " + (defenderTurn == player1 ? player2.getName() : player1.getName()));
-            MySignalV2.getInstance().showToast(defenderTurn.getName() + " lost");
-            //Log.d("end", "" + defenderTurn + "lost");
+            String winnerName = (defenderTurn == player1 ? player2.getName() : player1.getName());
+            game_TXT_message.setText("The Winner Is " + winnerName);
+            openEndgameActivity(winnerName);
         }
         updateProgBar(defenderTurn);
     }
     private void updateProgBar(IPlayer player) {
         game_progressBar_player1.setProgress(player1.getHP());
         game_progressBar_player2.setProgress(player2.getHP());
+    }
+
+    private void openEndgameActivity(String winnerName){
+        Intent intent = new Intent(activity_game.this,Activity_End_Game.class);
+        intent.putExtra("WINNER_NAME", winnerName);
+        startActivity(intent);
     }
 }
