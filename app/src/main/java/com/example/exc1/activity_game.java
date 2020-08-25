@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class activity_game extends AppCompatActivity {
     private IPlayer player1;
@@ -45,9 +48,11 @@ public class activity_game extends AppCompatActivity {
     private ArrayList<Button> p1BTNsArr;
     private ArrayList<Button> p2BTNsArr;
     private TextView game_TXT_message;
+    private TextView game_TXT_turn;
     private ImageButton game_BTN_roll;
     private ImageView game_IMG_cubeP1;
     private ImageView game_IMG_cubeP2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,40 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void playGame() {
+        defenderTurn=player1;
+        startTimerTask();
+    }
+
+    private void randomPress(IPlayer player){
+        Random rnd = new Random();
+        int randomAttack = rnd.nextInt(2)+1; //random number 1-3
+        if(player==player1){
+            switch(randomAttack){
+                case 1:
+                    game_BTN_player2_attack1.performClick();
+                    break;
+                case 2:
+                    game_BTN_player2_attack2.performClick();
+                    break;
+                case 3:
+                    game_BTN_player2_attack3.performClick();
+                    break;
+                default: break;
+            }
+        }
+        else
+            switch(randomAttack){
+                case 1:
+                    game_BTN_player1_attack1.performClick();
+                    break;
+                case 2:
+                    game_BTN_player1_attack2.performClick();
+                    break;
+                case 3:
+                    game_BTN_player1_attack3.performClick();
+                    break;
+                default: break;
+            }
     }
 
     private void setBTNs(IPlayer defenderTurn) {
@@ -189,6 +228,7 @@ public class activity_game extends AppCompatActivity {
         game_progressBar_player2 = findViewById(R.id.game_progressBar_player2);
 
         game_TXT_message = findViewById(R.id.game_TXT_message);
+        game_TXT_turn = findViewById(R.id.game_TXT_turn);
         game_BTN_roll = findViewById(R.id.game_BTN_roll);
         game_IMG_cubeP1 = findViewById(R.id.game_IMG_cubeP1);
         game_IMG_cubeP2 = findViewById(R.id.game_IMG_cubeP2);
@@ -221,5 +261,32 @@ public class activity_game extends AppCompatActivity {
         Intent intent = new Intent(activity_game.this,Activity_End_Game.class);
         intent.putExtra("WINNER_NAME", winnerName);
         startActivity(intent);
+    }
+
+    private void startTimerTask() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Return to UI Thread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        randomPress(defenderTurn);
+                    }
+                });
+
+            }
+        }, 0, 1000);
+    }
+
+    private void startCountDownTimer() {
+        new CountDownTimer(3000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                game_TXT_turn.setText("turn changes in: "+millisUntilFinished/1000);
+            }
+            public void onFinish() {
+                game_TXT_turn.setText("turns are changing!");
+            }
+        }.start();
     }
 }
