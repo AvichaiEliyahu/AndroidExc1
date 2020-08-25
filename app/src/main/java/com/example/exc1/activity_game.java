@@ -48,10 +48,10 @@ public class activity_game extends AppCompatActivity {
     private ArrayList<Button> p1BTNsArr;
     private ArrayList<Button> p2BTNsArr;
     private TextView game_TXT_message;
-    private TextView game_TXT_turn;
     private ImageButton game_BTN_roll;
     private ImageView game_IMG_cubeP1;
     private ImageView game_IMG_cubeP2;
+    private Timer tmr = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +59,10 @@ public class activity_game extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_game);
         MySignalV2.initHelper(this);
-        findVIews();
+        findViews();
         initGameFunctions();
         initPlayers();
-        playGame();
+        //playGame();
     }
 
     private void initGameFunctions() {
@@ -70,18 +70,18 @@ public class activity_game extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 howIsStart();
+                startTimerTask();
             }
         });
     }
 
     private void playGame() {
-        defenderTurn=player1;
         startTimerTask();
     }
 
     private void randomPress(IPlayer player){
         Random rnd = new Random();
-        int randomAttack = rnd.nextInt(2)+1; //random number 1-3
+        int randomAttack = rnd.nextInt(3)+1; //random number 1-3
         if(player==player1){
             switch(randomAttack){
                 case 1:
@@ -138,7 +138,6 @@ public class activity_game extends AppCompatActivity {
         Random rand = new Random();
         int num1 = rand.nextInt(7);
         int num2 = rand.nextInt(7);
-
         game_BTN_roll.setVisibility(View.GONE);
         game_IMG_cubeP1.setImageResource(getImageByRand(num1));
         game_IMG_cubeP1.setVisibility(View.VISIBLE);
@@ -153,7 +152,6 @@ public class activity_game extends AppCompatActivity {
         Resources res = getResources();
         String mDrawableName = "ic_dice" + randomNumber+".xml";
         int resourceId = this.getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
-
         return resourceId;
     }
 
@@ -212,7 +210,7 @@ public class activity_game extends AppCompatActivity {
         game_progressBar_player2.setProgress(player2.getHP());
     }
 
-    private void findVIews() {
+    private void findViews() {
         //player1
         game_IMG_player1 = findViewById(R.id.game_IMG_player1);
         game_BTN_player1_attack1 = findViewById(R.id.game_BTN_player1_attack1);
@@ -228,7 +226,6 @@ public class activity_game extends AppCompatActivity {
         game_progressBar_player2 = findViewById(R.id.game_progressBar_player2);
 
         game_TXT_message = findViewById(R.id.game_TXT_message);
-        game_TXT_turn = findViewById(R.id.game_TXT_turn);
         game_BTN_roll = findViewById(R.id.game_BTN_roll);
         game_IMG_cubeP1 = findViewById(R.id.game_IMG_cubeP1);
         game_IMG_cubeP2 = findViewById(R.id.game_IMG_cubeP2);
@@ -252,6 +249,7 @@ public class activity_game extends AppCompatActivity {
         }
         updateProgBar(defenderTurn);
     }
+
     private void updateProgBar(IPlayer player) {
         game_progressBar_player1.setProgress(player1.getHP());
         game_progressBar_player2.setProgress(player2.getHP());
@@ -261,20 +259,23 @@ public class activity_game extends AppCompatActivity {
         Intent intent = new Intent(activity_game.this,Activity_End_Game.class);
         intent.putExtra("WINNER_NAME", winnerName);
         startActivity(intent);
+        finish();
     }
 
     private void startTimerTask() {
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        tmr.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 // Return to UI Thread
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        randomPress(defenderTurn);
+                        if(defenderTurn.getHP()>0)
+                            randomPress(defenderTurn);
+                        else tmr.cancel();
+
                     }
                 });
-
             }
         }, 0, 1000);
     }
@@ -282,10 +283,8 @@ public class activity_game extends AppCompatActivity {
     private void startCountDownTimer() {
         new CountDownTimer(3000, 1000) {
             public void onTick(long millisUntilFinished) {
-                game_TXT_turn.setText("turn changes in: "+millisUntilFinished/1000);
             }
             public void onFinish() {
-                game_TXT_turn.setText("turns are changing!");
             }
         }.start();
     }

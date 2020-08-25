@@ -1,6 +1,7 @@
 package com.example.exc1;
 
 import android.util.Log;
+import android.widget.Button;
 
 public class Player extends AbstractPlayer {
     private String name;
