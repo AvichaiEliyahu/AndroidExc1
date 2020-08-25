@@ -2,8 +2,10 @@ package com.example.exc1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -67,9 +69,6 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void playGame() {
-//        defenderTurn = howIsStart();
-        setBTNs(defenderTurn);
-
     }
 
     private void setBTNs(IPlayer defenderTurn) {
@@ -99,20 +98,23 @@ public class activity_game extends AppCompatActivity {
         Random rand = new Random();
         int num1 = rand.nextInt(7);
         int num2 = rand.nextInt(7);
+
         game_BTN_roll.setVisibility(View.GONE);
         game_IMG_cubeP1.setImageResource(getImageByRand(num1));
         game_IMG_cubeP1.setVisibility(View.VISIBLE);
         game_IMG_cubeP2.setImageResource(getImageByRand(num2));
         game_IMG_cubeP2.setVisibility(View.VISIBLE);
         this.defenderTurn = num1 > num2 ? player1 : player2;
-        return player1;
+        setBTNs(defenderTurn);
+        return defenderTurn;
     }
 
     private int getImageByRand(int randomNumber) {
-        String fileName = "ic_dice" + randomNumber+".xml";
-        Context context = this;
-        int id = context.getResources().getIdentifier("picture0001", "drawable", context.getPackageName());
-        return id;
+        Resources res = getResources();
+        String mDrawableName = "ic_dice" + randomNumber+".xml";
+        int resourceId = this.getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
+
+        return resourceId;
     }
 
     private void initPlayers() {

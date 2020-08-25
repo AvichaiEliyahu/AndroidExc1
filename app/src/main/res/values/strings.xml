@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Exc1</string>
     <string name="_9_place">9 Place</string>
+    <string name="winner_name">Winner name</string>
 </resources>
