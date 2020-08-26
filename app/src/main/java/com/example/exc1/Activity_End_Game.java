@@ -62,7 +62,6 @@ public class Activity_End_Game extends AppCompatActivity {
             }
         });
 
-        JSONObject records = MySP.getInstance().getJson(MySP.KEYS.TOP_10);
 
     }
 

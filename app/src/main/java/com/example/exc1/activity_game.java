@@ -74,13 +74,12 @@ public class activity_game extends AppCompatActivity {
     }
 
 
-    private void randomPress(IPlayer player){
+    private void randomPress(IPlayer player) {
         Random rnd = new Random();
         int randomAttack = rnd.nextInt(3); //random number 1-3
-        if(player==player1){
+        if (player == player1) {
             p1BTNsArr.get(randomAttack).performClick();
-        }
-        else
+        } else
             p2BTNsArr.get(randomAttack).performClick();
 
     }
@@ -124,7 +123,7 @@ public class activity_game extends AppCompatActivity {
 
     private int getImageByRand(int randomNumber) {
         Resources res = getResources();
-        String mDrawableName = "ic_dice" + randomNumber+".xml";
+        String mDrawableName = "ic_dice" + randomNumber + ".xml";
         int resourceId = this.getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
         return resourceId;
     }
@@ -216,20 +215,22 @@ public class activity_game extends AppCompatActivity {
 
     private void changeTurn(boolean defenderAlive) {
         IPlayer attacker = defenderTurn == player1 ? player2 : (player1);
+        int numOfAttacks = attacker.addToAttackCounter();
         if (defenderAlive) {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
             String winnerName = (defenderTurn == player1 ? player2.getName() : player1.getName());
             game_TXT_message.setText("The Winner Is " + winnerName);
-            checkForHighRecord();
+            checkForHighRecord(attacker, numOfAttacks);
             openEndgameActivity(winnerName);
         }
         updateProgBar();
     }
 
-    private void checkForHighRecord() {
-
+    private void checkForHighRecord(IPlayer attacker, int numOfAttacks) {
+        Top_10.getInstance().
+                checkForRecordAndReplace(new HighScore(attacker.getName(), numOfAttacks, null));
     }
 
     private void updateProgBar() {
@@ -237,8 +238,8 @@ public class activity_game extends AppCompatActivity {
         game_progressBar_player2.setProgress(player2.getHP());
     }
 
-    private void openEndgameActivity(String winnerName){
-        Intent intent = new Intent(activity_game.this,Activity_End_Game.class);
+    private void openEndgameActivity(String winnerName) {
+        Intent intent = new Intent(activity_game.this, Activity_End_Game.class);
         intent.putExtra("WINNER_NAME", winnerName);
         startActivity(intent);
         finish();
@@ -252,7 +253,7 @@ public class activity_game extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(defenderTurn.getHP()>0)
+                        if (defenderTurn.getHP() > 0)
                             randomPress(defenderTurn);
                         else tmr.cancel();
                     }

@@ -11,4 +11,5 @@ public class MyApp extends Application {
 
         MySP.initHelper(this);
 
+        Top_10.getInstance();
     }}

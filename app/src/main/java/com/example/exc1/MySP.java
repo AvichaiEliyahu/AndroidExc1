@@ -2,11 +2,20 @@ package com.example.exc1;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.ArraySet;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class MySP {
+
+
 
     public interface KEYS {
         public static final String TOP_10 = "TOP_10";
@@ -30,6 +39,17 @@ public class MySP {
         if (instance == null)
             instance = new MySP(context);
         return instance;
+    }
+    public void putArray(String KEY, ArrayList value) {
+        Set<String> toSave = new TreeSet<>(value);
+        Log.d("pttt",toSave.toString());
+        prefs.edit().putStringSet(KEY, toSave).apply();
+    }
+
+    public ArrayList getArray(String KEY) {
+         Set retSet = prefs.getStringSet(KEY,new ArraySet<String>());
+         return new ArrayList(retSet);
+
     }
 
     public void putString(String key, String value) {
