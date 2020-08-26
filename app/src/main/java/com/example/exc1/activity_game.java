@@ -81,34 +81,13 @@ public class activity_game extends AppCompatActivity {
 
     private void randomPress(IPlayer player){
         Random rnd = new Random();
-        int randomAttack = rnd.nextInt(3)+1; //random number 1-3
+        int randomAttack = rnd.nextInt(3); //random number 1-3
         if(player==player1){
-            switch(randomAttack){
-                case 1:
-                    game_BTN_player2_attack1.performClick();
-                    break;
-                case 2:
-                    game_BTN_player2_attack2.performClick();
-                    break;
-                case 3:
-                    game_BTN_player2_attack3.performClick();
-                    break;
-                default: break;
-            }
+            p1BTNsArr.get(randomAttack).performClick();
         }
         else
-            switch(randomAttack){
-                case 1:
-                    game_BTN_player1_attack1.performClick();
-                    break;
-                case 2:
-                    game_BTN_player1_attack2.performClick();
-                    break;
-                case 3:
-                    game_BTN_player1_attack3.performClick();
-                    break;
-                default: break;
-            }
+            p2BTNsArr.get(randomAttack).performClick();
+
     }
 
     private void setBTNs(IPlayer defenderTurn) {
@@ -180,6 +159,7 @@ public class activity_game extends AppCompatActivity {
                 attackBTN(40);
             }
         });
+        game_progressBar_player1.setMax(player1.getHP());
 
 
         p2BTNsArr = new ArrayList<>();
@@ -205,9 +185,10 @@ public class activity_game extends AppCompatActivity {
                 attackBTN(40);
             }
         });
+        game_progressBar_player2.setMax(player2.getHP());
 
-        game_progressBar_player1.setProgress(player1.getHP());
-        game_progressBar_player2.setProgress(player2.getHP());
+        updateProgBar();
+
     }
 
     private void findViews() {
@@ -247,10 +228,10 @@ public class activity_game extends AppCompatActivity {
             game_TXT_message.setText("The Winner Is " + winnerName);
             openEndgameActivity(winnerName);
         }
-        updateProgBar(defenderTurn);
+        updateProgBar();
     }
 
-    private void updateProgBar(IPlayer player) {
+    private void updateProgBar() {
         game_progressBar_player1.setProgress(player1.getHP());
         game_progressBar_player2.setProgress(player2.getHP());
     }
@@ -273,7 +254,6 @@ public class activity_game extends AppCompatActivity {
                         if(defenderTurn.getHP()>0)
                             randomPress(defenderTurn);
                         else tmr.cancel();
-
                     }
                 });
             }
