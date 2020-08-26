@@ -3,9 +3,10 @@ package com.example.exc1;
 import android.util.Log;
 import android.widget.Button;
 
-public class Player extends AbstractPlayer {
+public class Player implements IPlayer {
     private String name;
     private int HP;
+    private int numOfAttacks = 0;
 
     public Player() {
     }
@@ -19,11 +20,17 @@ public class Player extends AbstractPlayer {
         return name;
     }
 
+    @Override
+    public int addToAttackCounter() {
+        this.numOfAttacks++;
+        return numOfAttacks;
+    }
+
     public Player setName(String name) {
         this.name = name;
         return this;
     }
-
+    @Override
     public int getHP() {
         return HP;
     }

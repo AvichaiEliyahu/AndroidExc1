@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONObject;
+
 public class Activity_End_Game extends AppCompatActivity {
     ImageView end_IMG_background;
     TextView end_TXT_winner;
@@ -60,5 +62,9 @@ public class Activity_End_Game extends AppCompatActivity {
             }
         });
 
+        JSONObject records = MySP.getInstance().getJson(MySP.KEYS.TOP_10);
+
     }
+
+
 }

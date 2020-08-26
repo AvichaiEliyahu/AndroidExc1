@@ -58,11 +58,9 @@ public class activity_game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_game);
-        MySignalV2.initHelper(this);
         findViews();
         initGameFunctions();
         initPlayers();
-        //playGame();
     }
 
     private void initGameFunctions() {
@@ -75,9 +73,6 @@ public class activity_game extends AppCompatActivity {
         });
     }
 
-    private void playGame() {
-        startTimerTask();
-    }
 
     private void randomPress(IPlayer player){
         Random rnd = new Random();
@@ -220,15 +215,21 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void changeTurn(boolean defenderAlive) {
+        IPlayer attacker = defenderTurn == player1 ? player2 : (player1);
         if (defenderAlive) {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
             String winnerName = (defenderTurn == player1 ? player2.getName() : player1.getName());
             game_TXT_message.setText("The Winner Is " + winnerName);
+            checkForHighRecord();
             openEndgameActivity(winnerName);
         }
         updateProgBar();
+    }
+
+    private void checkForHighRecord() {
+
     }
 
     private void updateProgBar() {
@@ -260,12 +261,12 @@ public class activity_game extends AppCompatActivity {
         }, 0, 1000);
     }
 
-    private void startCountDownTimer() {
-        new CountDownTimer(3000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-            public void onFinish() {
-            }
-        }.start();
-    }
+//    private void startCountDownTimer() {
+//        new CountDownTimer(3000, 1000) {
+//            public void onTick(long millisUntilFinished) {
+//            }
+//            public void onFinish() {
+//            }
+//        }.start();
+//    }
 }
