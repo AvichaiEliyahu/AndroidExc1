@@ -4,11 +4,12 @@ import android.content.Context;
 import android.location.Location;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class Top_10 {
     private ArrayList<HighScore> records;
-    private static Top_10 instance;
+    public static Top_10 instance;
 
     private Top_10() {
         records = MySP.getInstance().getArray(MySP.KEYS.TOP_10);
@@ -22,8 +23,9 @@ public class Top_10 {
     }
 
     public void checkForRecordAndReplace(HighScore record) {
-        if (records.size() == 0) {
+        if (records.size() <= 10) {
             records.add(record);
+            order();
             return;
         } else {
             for (int i = 0; i < records.size(); i++) {
@@ -36,6 +38,10 @@ public class Top_10 {
         MySP.getInstance().putArray(MySP.KEYS.TOP_10,this.records);
     }
 
+    private void order() {
+        Collections.sort(this.records);
+    }
+
     private void rollTableDown(int i, HighScore newRecord) {
         records.add(i, newRecord);
         records.remove(10);
@@ -44,7 +50,7 @@ public class Top_10 {
 
 }
 
-class HighScore {
+class HighScore  implements Comparable {
     private int attacks;
     private String name;
     private Location location;
@@ -80,5 +86,12 @@ class HighScore {
     public HighScore setLocation(Location location) {
         this.location = location;
         return this;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        int compareAttacks=((HighScore)o).getAttacks();
+        /* For Ascending order*/
+        return compareAttacks - this.attacks;
     }
 }

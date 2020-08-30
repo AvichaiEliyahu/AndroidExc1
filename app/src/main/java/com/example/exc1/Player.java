@@ -26,6 +26,10 @@ public class Player implements IPlayer {
         return numOfAttacks;
     }
 
+    public int getNumOfAttacks() {
+        return numOfAttacks;
+    }
+
     public Player setName(String name) {
         this.name = name;
         return this;

@@ -207,9 +207,9 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void attackBTN(int power) {
-        Log.d("pttt", "turn = " + defenderTurn + "\npower = " + power);
+//        Log.d("pttt", "turn = " + defenderTurn + "\npower = " + power);
         boolean rv = defenderTurn.attack(power);
-        Log.d("pttt", "def HP = " + defenderTurn);
+//        Log.d("pttt", "def HP = " + defenderTurn);
         changeTurn(rv);
     }
 
