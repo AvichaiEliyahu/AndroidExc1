@@ -23,7 +23,7 @@ public class Top_10 {
     }
 
     public void checkForRecordAndReplace(HighScore record) {
-        if (records.size() <= 10) {
+        if (records.size() < 10) {
             records.add(record);
             order();
             return;

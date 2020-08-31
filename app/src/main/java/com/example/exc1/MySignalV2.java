@@ -13,7 +13,9 @@ public class MySignalV2 {
     private static MySignalV2 instance;
     private static Context appContext;
 
-    public static MySignalV2 getInstance() {
+    public static MySignalV2 getInstance(Context context) {
+        if (instance == null)
+            instance = new MySignalV2(context);
         return instance;
     }
 
@@ -21,11 +23,6 @@ public class MySignalV2 {
         appContext = context;
     }
 
-    public static MySignalV2 initHelper(Context context) {
-        if (instance == null)
-            instance = new MySignalV2(context);
-        return instance;
-    }
 
     public void showToast(final String message) {
         // If we put it into handler - we can call in from asynctask outside of main uithread

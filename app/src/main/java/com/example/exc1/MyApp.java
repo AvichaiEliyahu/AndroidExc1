@@ -7,7 +7,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MySignalV2.initHelper(this);
+        MySignalV2.getInstance(this);
 
         MySP.initHelper(this);
 

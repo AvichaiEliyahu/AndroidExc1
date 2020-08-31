@@ -1,9 +1,12 @@
 package com.example.exc1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -14,50 +17,56 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import org.json.JSONObject;
 
 public class Activity_End_Game extends AppCompatActivity {
     private ImageView end_IMG_background;
     private TextView end_TXT_winner;
     private Button end_BTN_menu;
     private Button end_BTN_T10;
-    private LocationManager mLocationManager;
+    private  Location winnerLocation = null;
+    private HighScore highScore;
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
-
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
-
+    public static final String WINNER_NAME = "WINNER_NAME";
+    public static final String WINNER_ATTACKS = "WINNER_ATTACKS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new MyLocationListener();
 
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, mLocationListener);
         setContentView(R.layout.activity_end_game);
-        String winnerName = getIntent().getExtras().getString("WINNER_NAME");
+        String winnerName = getIntent().getExtras().getString(WINNER_NAME);
+        int winnerAttacks = getIntent().getExtras().getInt(WINNER_ATTACKS);
         findviews();
         end_TXT_winner.setText(winnerName);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            return;
+        }
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        checkForRecordAndReplace(new HighScore(winnerName,winnerAttacks,winnerLocation));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 1 && grantResults.length > 0){
+    this.winnerLocation =null;
+        }else {
+            MySignalV2.getInstance(this).showToast("Location Denied");
+        }
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -96,9 +105,10 @@ public class Activity_End_Game extends AppCompatActivity {
 
             }
         });
-
-
     }
-
+    private void checkForRecordAndReplace(HighScore highScore) {
+        Top_10.getInstance().
+                checkForRecordAndReplace(highScore);
+    }
 
 }

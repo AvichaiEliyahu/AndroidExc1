@@ -160,7 +160,7 @@ public class activity_game extends AppCompatActivity {
         p2BTNsArr.add(game_BTN_player2_attack1);
         p2BTNsArr.add(game_BTN_player2_attack2);
         p2BTNsArr.add(game_BTN_player2_attack3);
-        player2 = new Player("BYM", 100);
+        player2 = new Player("BYM", 10);
         game_BTN_player2_attack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -220,27 +220,23 @@ public class activity_game extends AppCompatActivity {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
-            String winnerName = (defenderTurn == player1 ? player2.getName() : player1.getName());
-            game_TXT_message.setText("The Winner Is " + winnerName);
-            checkForHighRecord(attacker, numOfAttacks);
-            openEndgameActivity(winnerName);
+            game_TXT_message.setText("The Winner Is " + attacker.getName());
+            openEndgameActivity(attacker);
         }
         updateProgBar();
     }
 
-    private void checkForHighRecord(IPlayer attacker, int numOfAttacks) {
-        Top_10.getInstance().
-                checkForRecordAndReplace(new HighScore(attacker.getName(), numOfAttacks, null));
-    }
+
 
     private void updateProgBar() {
         game_progressBar_player1.setProgress(player1.getHP());
         game_progressBar_player2.setProgress(player2.getHP());
     }
 
-    private void openEndgameActivity(String winnerName) {
+    private void openEndgameActivity(IPlayer winner) {
         Intent intent = new Intent(activity_game.this, Activity_End_Game.class);
-        intent.putExtra("WINNER_NAME", winnerName);
+        intent.putExtra(Activity_End_Game.WINNER_NAME, winner.getName());
+        intent.putExtra(Activity_End_Game.WINNER_ATTACKS, winner.getNumOfAttacks());
         startActivity(intent);
         finish();
     }
@@ -262,12 +258,5 @@ public class activity_game extends AppCompatActivity {
         }, 0, 1000);
     }
 
-//    private void startCountDownTimer() {
-//        new CountDownTimer(3000, 1000) {
-//            public void onTick(long millisUntilFinished) {
-//            }
-//            public void onFinish() {
-//            }
-//        }.start();
-//    }
+
 }

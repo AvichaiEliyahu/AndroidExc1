@@ -6,4 +6,5 @@ public interface IPlayer {
     public int getHP();
     public String getName();
     public int addToAttackCounter();
+    public int getNumOfAttacks();
 }
