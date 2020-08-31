@@ -46,8 +46,9 @@ public class Activity_End_Game extends AppCompatActivity {
     private int PERMISSION_ID = 20;
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
+    public static final String WINNER_NAME = "WINNER_NAME";
+    public static final String WINNER_ATTACKS = "WINNER_ATTACKS";
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,11 @@ public class Activity_End_Game extends AppCompatActivity {
         getLastLocation();
         setContentView(R.layout.activity_end_game);
 
-        String winnerName = getIntent().getExtras().getString("WINNER_NAME");
+        String winnerName = getIntent().getExtras().getString(WINNER_NAME);
+        int winnerAttacks = getIntent().getExtras().getInt(WINNER_ATTACKS);
+        HighScore score = new HighScore(winnerName,winnerAttacks,null);
+        Top_10.getInstance().checkForRecordAndReplace(score);
+        Log.d("High Score",score.toString());
         findviews();
         end_TXT_winner.setText(winnerName);
     }
@@ -100,7 +105,7 @@ public class Activity_End_Game extends AppCompatActivity {
                         }
                 );
             } else {
-                MySignalV2.getInstance().showToast("please enable location service");
+                MySignalV2.getInstance(this).showToast("please enable location service");
             }
         } else {
             requestPermissions();

@@ -47,7 +47,9 @@ public class Top_10 {
         records.remove(10);
     }
 
-
+    public ArrayList<HighScore> getRecords() {
+        return records;
+    }
 }
 
 class HighScore  implements Comparable {
@@ -86,6 +88,15 @@ class HighScore  implements Comparable {
     public HighScore setLocation(Location location) {
         this.location = location;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "HighScore{" +
+                "attacks=" + attacks +
+                ", name='" + name + '\'' +
+                ", location=" + location +
+                '}';
     }
 
     @Override
