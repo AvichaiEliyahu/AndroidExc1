@@ -114,7 +114,6 @@ public class Activity_End_Game extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
-
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(0);
