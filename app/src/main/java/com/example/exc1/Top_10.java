@@ -26,7 +26,6 @@ public class Top_10 {
         if (records.size() < 10) {
             records.add(record);
             order();
-
         } else {
             for (int i = 0; i < records.size(); i++) {
                 if (record.getAttacks() > records.get(i).getAttacks()) {
@@ -35,7 +34,7 @@ public class Top_10 {
                 }
             }
         }
- //       MySP.getInstance().putArray(MySP.KEYS.TOP_10,this.records);
+        MySP.getInstance().putArray(MySP.KEYS.TOP_10,this.records);
     }
 
     private void order() {
