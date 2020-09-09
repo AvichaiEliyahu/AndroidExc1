@@ -160,7 +160,7 @@ public class activity_game extends AppCompatActivity {
         p2BTNsArr.add(game_BTN_player2_attack1);
         p2BTNsArr.add(game_BTN_player2_attack2);
         p2BTNsArr.add(game_BTN_player2_attack3);
-        player2 = new Player("BYM", 10);
+        player2 = new Player("BYM", 100);
         game_BTN_player2_attack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -221,6 +221,8 @@ public class activity_game extends AppCompatActivity {
             setBTNs(defenderTurn);
         } else {
             game_TXT_message.setText("The Winner Is " + attacker.getName());
+            HighScore score = new HighScore(attacker.getName(),numOfAttacks,null);
+            Top_10.getInstance().checkForRecordAndReplace(score);
             openEndgameActivity(attacker);
         }
         updateProgBar();

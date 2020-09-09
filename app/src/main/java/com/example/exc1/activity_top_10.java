@@ -44,7 +44,7 @@ public class activity_top_10 extends AppCompatActivity {
         top10[9] = findViewById(R.id.top10_TXT_10);
         ArrayList<HighScore> records = Top_10.getInstance().getRecords();
         for (int i = 0; i< records.size();i++){
-            top10[i].setText(records.get(i).getName());
+            top10[i].setText(records.get(i).getName() + " : " + records.get(i).getAttacks());
         }
 
 
