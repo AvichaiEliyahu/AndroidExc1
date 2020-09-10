@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="Top 10!!!"
             android:textAlignment="center"
-
             android:textSize="80sp" />
 
 
@@ -115,6 +114,20 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+
+            <fragment
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/mapFragment"/>
 
 
         </LinearLayout>

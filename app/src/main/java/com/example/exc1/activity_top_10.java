@@ -8,9 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 
-public class activity_top_10 extends AppCompatActivity {
+public class activity_top_10 extends AppCompatActivity implements OnMapReadyCallback {
+
+    GoogleMap map;
     private TextView[] top10;
     private Button top10_BTN_menu;
     public final int TOP = 10;
@@ -19,6 +28,8 @@ public class activity_top_10 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+        mapFragment.getMapAsync(this);
         setContentView(R.layout.activity_top_10);
         setView();
     }
@@ -43,12 +54,21 @@ public class activity_top_10 extends AppCompatActivity {
         top10[8] = findViewById(R.id.top10_TXT_9);
         top10[9] = findViewById(R.id.top10_TXT_10);
         ArrayList<HighScore> records = Top_10.getInstance().getRecords();
-        for (int i = 0; i< records.size();i++){
+        for (int i = 0; i< records.size();i++) {
             top10[i].setText(records.get(i).getName());
         }
-
-
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        ArrayList<HighScore> top10 = Top_10.getInstance().getRecords();
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.4117257, 35.0818155), 6));
+        for (int i = 0; i < top10.size(); i++) {
+            if (top10.get(i).getLocation().getLatitude() != 0.0 && top10.get(i).getLocation().getLongitude() != 0.0) {
+                map.addMarker(new MarkerOptions().position(new LatLng(top10.get(i).getLocation().getLatitude(), top10.get(i).getLocation().getLongitude()))).setTitle((i + 1) + ". " + top10.get(i).getName());
+            }
+        }
+    }
 }
