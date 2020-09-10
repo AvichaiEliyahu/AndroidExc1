@@ -5,16 +5,20 @@ import android.content.SharedPreferences;
 import android.util.ArraySet;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class MySP {
-
 
 
     public interface KEYS {
@@ -40,16 +44,28 @@ public class MySP {
             instance = new MySP(context);
         return instance;
     }
+
     public void putArray(String KEY, ArrayList value) {
-        Set<String> toSave = new TreeSet<>(value);
-        Log.d("pttt",toSave.toString());
-        prefs.edit().putStringSet(KEY, toSave).apply();
+        Gson gson = new Gson();
+        String toSave = gson.toJson(value);
+
+        Log.d("pttt", toSave);
+        prefs.edit().putString(KEY, toSave).apply();
     }
 
     public ArrayList getArray(String KEY) {
-         Set retSet = prefs.getStringSet(KEY,new ArraySet<String>());
-         return new ArrayList(retSet);
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<HighScore>>() {
+        }.getType();
 
+        String list = prefs.getString(KEY, null);
+        if (list != null) {
+            ArrayList<HighScore> listFromGson;
+            listFromGson = gson.fromJson(list, type);
+            Collections.sort(listFromGson);
+            return listFromGson;
+        }
+        return new ArrayList<HighScore>();
     }
 
     public void putString(String key, String value) {

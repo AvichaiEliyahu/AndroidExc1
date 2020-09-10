@@ -102,6 +102,6 @@ class HighScore  implements Comparable {
     public int compareTo(Object o) {
         int compareAttacks=((HighScore)o).getAttacks();
         /* For Ascending order*/
-        return compareAttacks - this.attacks;
+        return this.attacks - compareAttacks;
     }
 }

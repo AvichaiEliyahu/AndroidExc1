@@ -77,10 +77,8 @@ public class Activity_End_Game extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
 
         String winnerName = getIntent().getExtras().getString(WINNER_NAME);
-        int winnerAttacks = getIntent().getExtras().getInt(WINNER_ATTACKS);
-        HighScore score = new HighScore(winnerName,winnerAttacks,null);
-        Top_10.getInstance().checkForRecordAndReplace(score);
-        Log.d("High Score",score.toString());
+//        int winnerAttacks = getIntent().getExtras().getInt(WINNER_ATTACKS);
+
         findviews();
         end_TXT_winner.setText(winnerName);
     }
