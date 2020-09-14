@@ -1,24 +1,33 @@
 package com.example.exc1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 
-public class activity_top_10 extends AppCompatActivity {
+public class activity_top_10 extends FragmentActivity implements OnMapReadyCallback {
     private TextView[] top10;
     private Button top10_BTN_menu;
     public final int TOP = 10;
+    GoogleMap map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_top_10);
         setView();
     }
@@ -46,9 +55,16 @@ public class activity_top_10 extends AppCompatActivity {
         for (int i = 0; i< records.size();i++){
             top10[i].setText(records.get(i).getName() + " : " + records.get(i).getAttacks());
         }
-
-
+        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
-
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map=googleMap;
+        LatLng afeka = new LatLng(32.115033, 34.818040);
+        map.addMarker(new MarkerOptions().position(afeka).title("afeka!"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(afeka));
+    }
 }

@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
                 openGameActivity();
             }
         });
+        main_BTN_top10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTop10Activity();
+            }
+        });
     }
 
     @Override
@@ -51,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void openGameActivity() {
         Intent intent = new Intent(MainActivity.this,activity_game.class);
+        startActivity(intent);
+    }
+    private void openTop10Activity() {
+        Intent intent = new Intent(MainActivity.this,activity_top_10.class);
         startActivity(intent);
     }
 

@@ -14,13 +14,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <TextView
             android:id="@+id/top10_TXT_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Top 10!!!"
             android:textAlignment="center"
-
             android:textSize="80sp" />
 
 
@@ -113,6 +113,21 @@
                 android:text="10 Place"
                 android:textAlignment="center"
                 android:textSize="20sp" />
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <fragment
+                    android:layout_width="400dp"
+                    android:layout_height="200dp"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+            </LinearLayout>
+
+
 
 
 

@@ -3,6 +3,7 @@ package com.example.exc1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -27,12 +28,14 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
 
-public class Activity_End_Game extends AppCompatActivity {
+public class Activity_End_Game extends AppCompatActivity{
     private ImageView end_IMG_background;
     private TextView end_TXT_winner;
     private Button end_BTN_menu;
@@ -48,17 +51,29 @@ public class Activity_End_Game extends AppCompatActivity {
     private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
     public static final String WINNER_NAME = "WINNER_NAME";
     public static final String WINNER_ATTACKS = "WINNER_ATTACKS";
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            lat = mLastLocation.getLatitude();
+            lon = mLastLocation.getLongitude();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation();
+
+       /* mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getLastLocation();*/
         setContentView(R.layout.activity_end_game);
 
         String winnerName = getIntent().getExtras().getString(WINNER_NAME);
+//        int winnerAttacks = getIntent().getExtras().getInt(WINNER_ATTACKS);
+
         findviews();
         end_TXT_winner.setText(winnerName);
     }
@@ -90,9 +105,9 @@ public class Activity_End_Game extends AppCompatActivity {
         }
     }
 
+
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
-
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(0);
@@ -107,14 +122,7 @@ public class Activity_End_Game extends AppCompatActivity {
         );
     }
 
-    private LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            Location mLastLocation = locationResult.getLastLocation();
-            lat = mLastLocation.getLatitude();
-            lon = mLastLocation.getLongitude();
-        }
-    };
+
     private boolean checkPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -176,6 +184,4 @@ public class Activity_End_Game extends AppCompatActivity {
 
 
     }
-
-
 }
