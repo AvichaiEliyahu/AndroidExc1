@@ -1,7 +1,9 @@
 package com.example.exc1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 openTop10Activity();
             }
         });
+        requestPermissions();
     }
 
     @Override
@@ -68,5 +71,12 @@ public class MainActivity extends AppCompatActivity {
         main_IMG_backgroundimg = findViewById(R.id.main_IMG_backgroundimg);
         main_BTN_start = findViewById(R.id.main_BTN_start);
         main_BTN_top10 = findViewById(R.id.main_BTN_top10);
+    }
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                20
+        );
     }
 }
