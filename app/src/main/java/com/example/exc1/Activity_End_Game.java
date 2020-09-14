@@ -60,28 +60,24 @@ public class Activity_End_Game extends AppCompatActivity{
         }
     };
 
-
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("pttt","im here!!");
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-
-       /* mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation();*/
         setContentView(R.layout.activity_end_game);
-
         String winnerName = getIntent().getExtras().getString(WINNER_NAME);
-//        int winnerAttacks = getIntent().getExtras().getInt(WINNER_ATTACKS);
-
+        int winnerNumOfAttacks = getIntent().getIntExtra(WINNER_ATTACKS,0);
         findviews();
         end_TXT_winner.setText(winnerName);
-        getLastLocation();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        getLocationAndAddToTop10(winnerName,winnerNumOfAttacks);
     }
 
     @SuppressLint("MissingPermission")
-    private void getLastLocation() {
+    private void getLocationAndAddToTop10(final String name,final int attacks) {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
                 mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -90,15 +86,16 @@ public class Activity_End_Game extends AppCompatActivity{
                             @Override
                             public void onComplete(@NonNull Task<Location> task) {
                                 Location location = task.getResult();
-
                                 if (location == null) {
                                     requestNewLocationData();
                                 } else {
                                     lat = location.getLatitude();
                                     lon = location.getLongitude();
-                                    Log.d("location",lat+"  "+lon);
+
                                     //TODO Send l0cation to HighScore!
                                 }
+                                //Log.d("loc222","lat: "+lat +" lon: "+lon);
+                                Top_10.getInstance().checkForRecordAndReplace(new HighScore(name,attacks,location));
                             }
                         }
                 );
@@ -118,7 +115,6 @@ public class Activity_End_Game extends AppCompatActivity{
         mLocationRequest.setInterval(0);
         mLocationRequest.setFastestInterval(0);
         mLocationRequest.setNumUpdates(1);
-
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mFusedLocationClient.requestLocationUpdates(
