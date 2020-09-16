@@ -50,7 +50,7 @@ public class activity_top_10 extends FragmentActivity implements OnMapReadyCallb
                 double scoreLat = scores.get(i).getLocation().getLat();
                 double scoreLng = scores.get(i).getLocation().getLon();
                 LatLng scoreLocation = new LatLng(scoreLat, scoreLng);
-                map.addMarker(new MarkerOptions().position(scoreLocation).title("#"+i));
+                map.addMarker(new MarkerOptions().position(scoreLocation).title("#"+(i + 1)+" " + scores.get(i).getName()));
                 map.moveCamera(CameraUpdateFactory.newLatLng(scoreLocation));
             }
         }
