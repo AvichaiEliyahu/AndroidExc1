@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         mediaPlayer = MediaPlayer.create(this,R.raw.soundtrack);
         mediaPlayer.start();
         setContentView(R.layout.activity_main);
@@ -55,7 +56,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mediaPlayer.stop();
+        mediaPlayer.release();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         mediaPlayer.pause();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mediaPlayer.start();
     }
 
     private void openGameActivity() {

@@ -91,8 +91,6 @@ public class Activity_End_Game extends AppCompatActivity {
                                 } else {
                                     lat = location.getLatitude();
                                     lon = location.getLongitude();
-
-                                    //TODO Send l0cation to HighScore!
                                     Top_10.getInstance().checkForRecordAndReplace(new HighScore(attacks, name, lat, lon));
                                 }
                             }

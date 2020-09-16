@@ -57,6 +57,12 @@ public class activity_game extends AppCompatActivity {
         initPlayers();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void initGameFunctions() {
         game_BTN_roll.setOnClickListener(new View.OnClickListener() {
             @Override
