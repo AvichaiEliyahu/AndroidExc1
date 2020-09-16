@@ -93,9 +93,9 @@ public class Activity_End_Game extends AppCompatActivity{
                                     lon = location.getLongitude();
 
                                     //TODO Send l0cation to HighScore!
+                                Top_10.getInstance().checkForRecordAndReplace(new HighScore(attacks,name,lat,lon));
                                 }
                                 //Log.d("loc222","lat: "+lat +" lon: "+lon);
-                                Top_10.getInstance().checkForRecordAndReplace(new HighScore(name,attacks,location));
                             }
                         }
                 );

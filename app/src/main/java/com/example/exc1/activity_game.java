@@ -234,8 +234,8 @@ public class activity_game extends AppCompatActivity {
             setBTNs(defenderTurn);
         } else {
             game_TXT_message.setText("The Winner Is " + attacker.getName());
-            HighScore score = new HighScore(attacker.getName(), numOfAttacks, null);
-            Top_10.getInstance().checkForRecordAndReplace(score);
+            HighScore score = new HighScore(numOfAttacks,attacker.getName(), null,null);
+//            Top_10.getInstance().checkForRecordAndReplace(score);
             openEndgameActivity(attacker);
         }
         updateProgBar();
