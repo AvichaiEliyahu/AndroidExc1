@@ -28,7 +28,7 @@ public class Top_10 {
             order();
         } else {
             for (int i = 0; i < records.size(); i++) {
-                if (record.getAttacks() > records.get(i).getAttacks()) {
+                if (record.getAttacks() < records.get(i).getAttacks()) {
                     rollTableDown(i, record);
                     break;
                 }
@@ -94,7 +94,7 @@ class HighScore  implements Comparable {
         return "HighScore{" +
                 "attacks=" + attacks +
                 ", name='" + name + '\'' +
-                ", location=" + location +
+                ", location=" + location.toString() +
                 '}';
     }
 

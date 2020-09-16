@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -60,8 +61,16 @@ public class activity_game extends AppCompatActivity {
         game_BTN_roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                howIsStart();
-                startTimerTask();
+                        howIsStart();
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startTimerTask();
+                    }
+                }, 3000);
+
             }
         });
     }
@@ -100,34 +109,36 @@ public class activity_game extends AppCompatActivity {
     }
 
     private IPlayer howIsStart() {
-        //TODO add images
         Random rand = new Random();
         int num1 = rand.nextInt(6) + 1;
         int num2 = rand.nextInt(6) + 1;
 
         game_BTN_roll.setVisibility(View.GONE);
-        setImageByRand(num1, game_IMG_cubeP1);
+        setImageByRand(num1, game_IMG_cubeP2);
         game_IMG_cubeP1.setVisibility(View.VISIBLE);
-        setImageByRand(num2, game_IMG_cubeP2);
+        setImageByRand(num2, game_IMG_cubeP1);
         game_IMG_cubeP2.setVisibility(View.VISIBLE);
-        //TODO view.Gone!!
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                game_IMG_cubeP1.setVisibility(View.GONE);
+                game_IMG_cubeP2.setVisibility(View.GONE);
+            }
+        }, 3000);
+
         this.defenderTurn = num1 > num2 ? player1 : player2;
         setBTNs(defenderTurn);
         return defenderTurn;
     }
 
-    private int setImageByRand(int randomNumber, ImageView imgCube) {
-        Log.d("num", randomNumber+"");
+    private void setImageByRand(int randomNumber, ImageView imgCube) {
+        Log.d("num", randomNumber + "");
         Context context = imgCube.getContext();
         String picName = "ic_dice" + randomNumber;
         int id = context.getResources().getIdentifier(picName, "drawable", context.getPackageName());
         imgCube.setImageResource(id);
-
-
-        Resources res = getResources();
-        String mDrawableName = "ic_dice" + randomNumber + ".xml";
-        int resourceId = this.getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
-        return resourceId;
     }
 
     private void initPlayers() {

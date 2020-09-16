@@ -45,12 +45,20 @@ public class MySP {
         return instance;
     }
 
-    public void putArray(String KEY, ArrayList value) {
+    public void putArray(String KEY, ArrayList<HighScore> value) {
+        try{
+
         Gson gson = new Gson();
-        String toSave = gson.toJson(value);
+        Type type = new TypeToken<ArrayList<HighScore>>() {
+        }.getType();
+        String toSave = gson.toJson(value, type);
 
         Log.d("pttt", toSave);
         prefs.edit().putString(KEY, toSave).apply();
+
+        }catch (Exception e){
+            Log.d("error",e.getMessage());
+        }
     }
 
     public ArrayList getArray(String KEY) {
