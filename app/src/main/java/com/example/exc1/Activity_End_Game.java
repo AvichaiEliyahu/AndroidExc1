@@ -72,7 +72,6 @@ public class Activity_End_Game extends AppCompatActivity{
         findviews();
         end_TXT_winner.setText(winnerName);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         getLocationAndAddToTop10(winnerName,winnerNumOfAttacks);
     }
 
