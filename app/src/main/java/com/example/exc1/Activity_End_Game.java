@@ -35,7 +35,7 @@ import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
 
-public class Activity_End_Game extends AppCompatActivity{
+public class Activity_End_Game extends AppCompatActivity {
     private ImageView end_IMG_background;
     private TextView end_TXT_winner;
     private Button end_BTN_menu;
@@ -63,20 +63,21 @@ public class Activity_End_Game extends AppCompatActivity{
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("pttt","im here!!");
+        Log.d("pttt", "im here!!");
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_end_game);
         String winnerName = getIntent().getExtras().getString(WINNER_NAME);
-        int winnerNumOfAttacks = getIntent().getIntExtra(WINNER_ATTACKS,0);
+        int winnerNumOfAttacks = getIntent().getIntExtra(WINNER_ATTACKS, 0);
         findviews();
         end_TXT_winner.setText(winnerName);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLocationAndAddToTop10(winnerName,winnerNumOfAttacks);
+
+        getLocationAndAddToTop10(winnerName, winnerNumOfAttacks);
     }
 
     @SuppressLint("MissingPermission")
-    private void getLocationAndAddToTop10(final String name,final int attacks) {
+    private void getLocationAndAddToTop10(final String name, final int attacks) {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
                 mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -90,11 +91,8 @@ public class Activity_End_Game extends AppCompatActivity{
                                 } else {
                                     lat = location.getLatitude();
                                     lon = location.getLongitude();
-
-                                    //TODO Send l0cation to HighScore!
+                                    Top_10.getInstance().checkForRecordAndReplace(new HighScore(attacks, name, lat, lon));
                                 }
-                                //Log.d("loc222","lat: "+lat +" lon: "+lon);
-                                Top_10.getInstance().checkForRecordAndReplace(new HighScore(name,attacks,location));
                             }
                         }
                 );
@@ -107,7 +105,6 @@ public class Activity_End_Game extends AppCompatActivity{
     }
 
 
-    @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -116,6 +113,16 @@ public class Activity_End_Game extends AppCompatActivity{
         mLocationRequest.setNumUpdates(1);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mFusedLocationClient.requestLocationUpdates(
                 mLocationRequest, mLocationCallback,
                 Looper.myLooper()

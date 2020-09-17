@@ -2,15 +2,13 @@ package com.example.exc1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,11 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -63,12 +57,26 @@ public class activity_game extends AppCompatActivity {
         initPlayers();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void initGameFunctions() {
         game_BTN_roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                howIsStart();
-                startTimerTask();
+                        howIsStart();
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startTimerTask();
+                    }
+                }, 3000);
+
             }
         });
     }
@@ -107,25 +115,36 @@ public class activity_game extends AppCompatActivity {
     }
 
     private IPlayer howIsStart() {
-        //TODO add images
         Random rand = new Random();
-        int num1 = rand.nextInt(7);
-        int num2 = rand.nextInt(7);
+        int num1 = rand.nextInt(6) + 1;
+        int num2 = rand.nextInt(6) + 1;
+
         game_BTN_roll.setVisibility(View.GONE);
-        game_IMG_cubeP1.setImageResource(getImageByRand(num1));
+        setImageByRand(num1, game_IMG_cubeP2);
         game_IMG_cubeP1.setVisibility(View.VISIBLE);
-        game_IMG_cubeP2.setImageResource(getImageByRand(num2));
+        setImageByRand(num2, game_IMG_cubeP1);
         game_IMG_cubeP2.setVisibility(View.VISIBLE);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                game_IMG_cubeP1.setVisibility(View.GONE);
+                game_IMG_cubeP2.setVisibility(View.GONE);
+            }
+        }, 3000);
+
         this.defenderTurn = num1 > num2 ? player1 : player2;
         setBTNs(defenderTurn);
         return defenderTurn;
     }
 
-    private int getImageByRand(int randomNumber) {
-        Resources res = getResources();
-        String mDrawableName = "ic_dice" + randomNumber + ".xml";
-        int resourceId = this.getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
-        return resourceId;
+    private void setImageByRand(int randomNumber, ImageView imgCube) {
+        Log.d("num", randomNumber + "");
+        Context context = imgCube.getContext();
+        String picName = "ic_dice" + randomNumber;
+        int id = context.getResources().getIdentifier(picName, "drawable", context.getPackageName());
+        imgCube.setImageResource(id);
     }
 
     private void initPlayers() {
@@ -221,13 +240,12 @@ public class activity_game extends AppCompatActivity {
             setBTNs(defenderTurn);
         } else {
             game_TXT_message.setText("The Winner Is " + attacker.getName());
-            HighScore score = new HighScore(attacker.getName(),numOfAttacks,null);
-            Top_10.getInstance().checkForRecordAndReplace(score);
+            HighScore score = new HighScore(numOfAttacks,attacker.getName(), null,null);
+//            Top_10.getInstance().checkForRecordAndReplace(score);
             openEndgameActivity(attacker);
         }
         updateProgBar();
     }
-
 
 
     private void updateProgBar() {

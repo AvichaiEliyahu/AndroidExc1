@@ -1,8 +1,10 @@
 package com.example.exc1;
 
 import android.app.Application;
+import android.media.MediaPlayer;
 
 public class MyApp extends Application {
+    MediaPlayer mediaPlayer;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -12,4 +14,12 @@ public class MyApp extends Application {
         MySP.initHelper(this);
 
         Top_10.getInstance();
-    }}
+
+    }
+
+
+
+
+
+}
+

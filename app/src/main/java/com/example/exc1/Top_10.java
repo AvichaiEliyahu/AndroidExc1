@@ -28,13 +28,13 @@ public class Top_10 {
             order();
         } else {
             for (int i = 0; i < records.size(); i++) {
-                if (record.getAttacks() > records.get(i).getAttacks()) {
+                if (record.getAttacks() < records.get(i).getAttacks()) {
                     rollTableDown(i, record);
                     break;
                 }
             }
         }
-        MySP.getInstance().putArray(MySP.KEYS.TOP_10,this.records);
+        MySP.getInstance().putArray(MySP.KEYS.TOP_10, this.records);
     }
 
     private void order() {
@@ -51,15 +51,56 @@ public class Top_10 {
     }
 }
 
-class HighScore  implements Comparable {
+class HighScore implements Comparable {
     private int attacks;
     private String name;
-    private Location location;
+    private MyLocation location;
 
-    public HighScore(String name, int attacks, Location location) {
+    public HighScore(int attacks, String name, Double lat, Double lon) {
         this.attacks = attacks;
         this.name = name;
+        this.location = null;
+        if (lat != null && lon != null) {
+            this.location = new MyLocation(lat,lon);
+        }
+
+    }
+
+    public MyLocation getLocation() {
+        return location;
+    }
+
+    public HighScore setLocation(MyLocation location) {
         this.location = location;
+        return this;
+    }
+
+    class MyLocation {
+        private double lat;
+        private double lon;
+
+        public MyLocation(double lat, double lon) {
+            this.lat = lat;
+            this.lon = lon;
+        }
+
+        public double getLat() {
+            return lat;
+        }
+
+        public MyLocation setLat(double lat) {
+            this.lat = lat;
+            return this;
+        }
+
+        public double getLon() {
+            return lon;
+        }
+
+        public MyLocation setLon(double lon) {
+            this.lon = lon;
+            return this;
+        }
     }
 
     public int getAttacks() {
@@ -80,27 +121,21 @@ class HighScore  implements Comparable {
         return this;
     }
 
-    public Location getLocation() {
-        return location;
-    }
 
-    public HighScore setLocation(Location location) {
-        this.location = location;
-        return this;
-    }
 
     @Override
     public String toString() {
         return "HighScore{" +
                 "attacks=" + attacks +
                 ", name='" + name + '\'' +
-                ", location=" + location +
+                ", lat=" + location.lat +
+                ", lon=" + location.lon +
                 '}';
     }
 
     @Override
     public int compareTo(Object o) {
-        int compareAttacks=((HighScore)o).getAttacks();
+        int compareAttacks = ((HighScore) o).getAttacks();
         /* For Ascending order*/
         return this.attacks - compareAttacks;
     }

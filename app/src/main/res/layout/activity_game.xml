@@ -92,14 +92,16 @@
 
             <ImageView
                 android:id="@+id/game_IMG_cubeP1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+android:layout_gravity="start"
                 android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/game_IMG_cubeP2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="end"
                 android:visibility="gone"/>
 
             <ImageButton
