@@ -40,15 +40,12 @@ public class Activity_End_Game extends AppCompatActivity {
     private TextView end_TXT_winner;
     private Button end_BTN_menu;
     private Button end_BTN_T10;
-    private LocationManager mLocationManager;
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
     private FusedLocationProviderClient mFusedLocationClient;
     private double lon, lat;
-    MySignalV2 ms;
     private int PERMISSION_ID = 20;
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
     public static final String WINNER_NAME = "WINNER_NAME";
     public static final String WINNER_ATTACKS = "WINNER_ATTACKS";
     private LocationCallback mLocationCallback = new LocationCallback() {
@@ -71,93 +68,8 @@ public class Activity_End_Game extends AppCompatActivity {
         int winnerNumOfAttacks = getIntent().getIntExtra(WINNER_ATTACKS, 0);
         findviews();
         end_TXT_winner.setText(winnerName);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        getLocationAndAddToTop10(winnerName, winnerNumOfAttacks);
     }
 
-    @SuppressLint("MissingPermission")
-    private void getLocationAndAddToTop10(final String name, final int attacks) {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-                mFusedLocationClient.getLastLocation().addOnCompleteListener(
-                        new OnCompleteListener<Location>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Location> task) {
-                                Location location = task.getResult();
-                                if (location == null) {
-                                    requestNewLocationData();
-                                } else {
-                                    lat = location.getLatitude();
-                                    lon = location.getLongitude();
-                                    Top_10.getInstance().checkForRecordAndReplace(new HighScore(attacks, name, lat, lon));
-                                }
-                            }
-                        }
-                );
-            } else {
-                MySignalV2.getInstance(this).showToast("please enable location service");
-            }
-        } else {
-            requestPermissions();
-        }
-    }
-
-
-    private void requestNewLocationData() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(0);
-        mLocationRequest.setFastestInterval(0);
-        mLocationRequest.setNumUpdates(1);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mFusedLocationClient.requestLocationUpdates(
-                mLocationRequest, mLocationCallback,
-                Looper.myLooper()
-        );
-    }
-
-
-    private boolean checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-        );
-    }
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            //your code here
-        }
-    };
-
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(
-                this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-                PERMISSION_ID
-        );
-    }
 
     private void findviews() {
         end_IMG_background = findViewById(R.id.end_IMG_background);
@@ -188,7 +100,5 @@ public class Activity_End_Game extends AppCompatActivity {
 
             }
         });
-
-
     }
 }

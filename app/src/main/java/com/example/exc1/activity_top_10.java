@@ -31,16 +31,6 @@ public class activity_top_10 extends FragmentActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_top_10);
         setView();
         ArrayList<HighScore> scores= Top_10.getInstance().getRecords();
-
-        Log.d("arraysize","size of high score array: " + scores.size());
-        //Log.d("loc:","lat:"+scores.get(0).getLocation().getLatitude()+"lon:"+scores.get(0).getLocation().getLongitude());
-        for(int i=0;i<scores.size();i++){
-            if(scores.get(i).getLocation()!=null) {
-                double scoreLat = scores.get(i).getLocation().getLat();
-                double scoreLng = scores.get(i).getLocation().getLon();
-               Log.d("hsprint","im here!");
-            }
-        }
     }
 
     private void updateMap() {
