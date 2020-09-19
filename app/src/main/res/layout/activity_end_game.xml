@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="Winners!"
+            android:text="Winner!"
             android:textColor="#D3D5DC"
             android:textSize="60sp" />
 
@@ -49,6 +49,7 @@
                 android:text="The Winner is:"
                 android:textAlignment="center"
                 android:textColor="#D3D5DC"
+                android:background="#2140F1"
                 android:textSize="40sp" />
 
             <TextView

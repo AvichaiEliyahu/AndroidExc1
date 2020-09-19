@@ -35,6 +35,18 @@ public class activity_top_10 extends FragmentActivity implements OnMapReadyCallb
         ArrayList<HighScore> scores= Top_10.getInstance().getRecords();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyMediaPlayer.getInstance(this).pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyMediaPlayer.getInstance(this).playMusic();
+    }
+
 
     private void updateMap() {
         ArrayList<HighScore> scores= Top_10.getInstance().getRecords();

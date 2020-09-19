@@ -2,6 +2,7 @@ package com.example.exc1;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 public class MyMediaPlayer {
     private MediaPlayer mediaPlayer;
@@ -24,18 +25,23 @@ public class MyMediaPlayer {
 
     public void playMusic(){
         mediaPlayer.start();
+        Log.d("stop","play music");
     }
 
     public void pauseMusic(){
         this.mediaPlayer.pause();
+        Log.d("stop"," pauseMusic");
+
     }
 
     public void resumeMusic(){
-        this.mediaPlayer.reset();
+        this.mediaPlayer.start();
+        Log.d("stop"," resumeMusic");
     }
 
     public void stopMusic(){
         this.mediaPlayer.stop();
         this.mediaPlayer.release();
+        Log.d("stop"," stopMusic");
     }
 }

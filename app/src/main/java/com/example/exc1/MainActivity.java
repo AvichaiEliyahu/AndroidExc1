@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         setContentView(R.layout.activity_main);
         findviews();
         Glide
@@ -51,30 +51,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        MyMediaPlayer.getInstance(this).playMusic();
-        isOnlyActivity = true;
+        Log.d("stop","main on start");
 
+        isOnlyActivity = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyMediaPlayer.getInstance(this).playMusic();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        MyMediaPlayer.getInstance(this).stopMusic();
+        MyMediaPlayer.getInstance(this).stopMusic();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
         if (isOnlyActivity) {
+            Log.d("stop","main on pause");
             MyMediaPlayer.getInstance(this).pauseMusic();
         }
+
     }
+
 
         @Override
         protected void onPostResume () {

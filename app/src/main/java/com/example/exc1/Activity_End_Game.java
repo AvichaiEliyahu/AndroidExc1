@@ -1,39 +1,20 @@
 package com.example.exc1;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
-import org.json.JSONObject;
 
 public class Activity_End_Game extends AppCompatActivity {
     private ImageView end_IMG_background;
@@ -57,21 +38,35 @@ public class Activity_End_Game extends AppCompatActivity {
         }
     };
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("pttt", "im here!!");
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_end_game);
         String winnerName = getIntent().getExtras().getString(WINNER_NAME);
-        int winnerNumOfAttacks = getIntent().getIntExtra(WINNER_ATTACKS, 0);
-        findviews();
+        findViews();
         end_TXT_winner.setText(winnerName);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
-    private void findviews() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyMediaPlayer.getInstance(this).playMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyMediaPlayer.getInstance(this).pauseMusic();
+
+    }
+
+    private void findViews() {
         end_IMG_background = findViewById(R.id.end_IMG_background);
         end_TXT_winner = findViewById(R.id.end_TXT_winner);
         end_BTN_menu = findViewById(R.id.end_BTN_menu);

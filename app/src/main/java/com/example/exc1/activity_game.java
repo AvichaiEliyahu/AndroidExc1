@@ -40,6 +40,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class activity_game extends AppCompatActivity {
+    private boolean isNextMove;
     private IPlayer player1;
     private ImageView game_IMG_player1;
     private Button game_BTN_player1_attack1;
@@ -80,12 +81,35 @@ public class activity_game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isNextMove = false;
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_game);
         findViews();
         initGameFunctions();
         initPlayers();
 
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyMediaPlayer.getInstance(this).playMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyMediaPlayer.getInstance(this).pauseMusic();
+
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        MyMediaPlayer.getInstance(this).resumeMusic();
     }
 
     @Override
@@ -327,6 +351,7 @@ public class activity_game extends AppCompatActivity {
                 Looper.myLooper()
         );
     }
+
     private boolean checkPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -341,6 +366,7 @@ public class activity_game extends AppCompatActivity {
                 LocationManager.NETWORK_PROVIDER
         );
     }
+
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
@@ -364,6 +390,7 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void openEndgameActivity(IPlayer winner) {
+        isNextMove = true;
         Intent intent = new Intent(activity_game.this, Activity_End_Game.class);
         intent.putExtra(Activity_End_Game.WINNER_NAME, winner.getName());
         intent.putExtra(Activity_End_Game.WINNER_ATTACKS, winner.getNumOfAttacks());
