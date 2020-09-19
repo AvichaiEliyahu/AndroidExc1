@@ -98,7 +98,7 @@ public class activity_game extends AppCompatActivity {
         game_BTN_roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                        howIsStart();
+                howIsStart();
 
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -266,9 +266,9 @@ public class activity_game extends AppCompatActivity {
             defenderTurn = defenderTurn == player1 ? player2 : (player1);
             setBTNs(defenderTurn);
         } else {
-            Log.d("hello","hello!");
+            Log.d("hello", "hello!");
             game_TXT_message.setText("The Winner Is " + attacker.getName());
-            HighScore score = new HighScore(numOfAttacks,attacker.getName(), null,null);
+            HighScore score = new HighScore(numOfAttacks, attacker.getName(), null, null);
 //            Top_10.getInstance().checkForRecordAndReplace(score);
             //////// location ///////
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -280,11 +280,14 @@ public class activity_game extends AppCompatActivity {
     }
 
     ///////////// location functions //////////////
-    @SuppressLint("MissingPermission")
     private void getLocationAndAddToTop10(final String name, final int attacks) {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
                 mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    this.requestPermissions();
+                    return;
+                }
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(
                         new OnCompleteListener<Location>() {
                             @Override
@@ -352,9 +355,9 @@ public class activity_game extends AppCompatActivity {
                 PERMISSION_ID
         );
     }
-    /////////////////  location functions ///////////////
 
 
+    //-----------  location functions -------------//
     private void updateProgBar() {
         game_progressBar_player1.setProgress(player1.getHP());
         game_progressBar_player2.setProgress(player2.getHP());

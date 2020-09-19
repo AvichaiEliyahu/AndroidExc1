@@ -4,10 +4,10 @@ import android.app.Application;
 import android.media.MediaPlayer;
 
 public class MyApp extends Application {
-    MediaPlayer mediaPlayer;
     @Override
     public void onCreate() {
         super.onCreate();
+        MyMediaPlayer.getInstance(this.getBaseContext());
 
         MySignalV2.getInstance(this);
 

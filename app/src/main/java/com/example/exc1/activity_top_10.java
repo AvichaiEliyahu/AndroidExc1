@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ public class activity_top_10 extends FragmentActivity implements OnMapReadyCallb
         setView();
         ArrayList<HighScore> scores= Top_10.getInstance().getRecords();
     }
+
 
     private void updateMap() {
         ArrayList<HighScore> scores= Top_10.getInstance().getRecords();
